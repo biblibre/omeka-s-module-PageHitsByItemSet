@@ -1,0 +1,97 @@
+<?php $this->htmlElement('body')->appendAttribute('class', 'page-hits-by-item-set-hits-aggregates browse'); ?>
+
+<?= $this->pageTitle($this->translate('Page hits by item set')) ?>
+
+<?php
+    try {
+        // This will throw an exception if ItemSetsTree is not enabled
+        $this->plugin('itemSetsTree');
+        $itemSetsTreeIsEnabled = true;
+    } catch (\Throwable) {
+        $itemSetsTreeIsEnabled = false;
+    }
+
+    $sortConfig = [
+        'hits_self' => $this->translate('Hits'),
+    ];
+
+    if ($itemSetsTreeIsEnabled) {
+        $sortConfig['hits_inclusive'] = $this->translate('Hits (incl. descendants item sets)');
+    }
+?>
+
+<div class="browse-controls">
+    <?= $this->pagination(); ?>
+
+    <form class="filtering">
+        <?= $this->queryToHiddenInputs(['year', 'month']); ?>
+        <?php
+        $yearSelect = new \Laminas\Form\Element\Select('year');
+        $yearSelect->setEmptyOption($this->translate('All years'));
+        $yearSelect->setValueOptions($years);
+        $yearSelect->setValue($this->params()->fromQuery('year'));
+        echo $this->formRow($yearSelect);
+        ?>
+        <?php
+        $monthSelect = new \Laminas\Form\Element\Select('month');
+        $monthSelect->setEmptyOption($this->translate('All months'));
+        $monthSelect->setValueOptions([
+            '1' => $this->translate('January'),
+            '2' => $this->translate('February'),
+            '3' => $this->translate('March'),
+            '4' => $this->translate('April'),
+            '5' => $this->translate('May'),
+            '6' => $this->translate('June'),
+            '7' => $this->translate('July'),
+            '8' => $this->translate('August'),
+            '9' => $this->translate('September'),
+            '10' => $this->translate('October'),
+            '11' => $this->translate('November'),
+            '12' => $this->translate('December'),
+        ]);
+        $monthSelect->setValue($this->params()->fromQuery('month'));
+        echo $this->formRow($monthSelect);
+        ?>
+        <button type="submit"><?= $this->translate('Filter') ?></button>
+    </form>
+
+    <?= $this->browse()->renderSortSelector($sortConfig) ?>
+</div>
+
+<?php $this->trigger('view.browse.before'); ?>
+
+<?php if ($itemSetsHitsTotals): ?>
+    <table class="tablesaw" data-tablesaw-mode="stack">
+        <thead>
+            <tr>
+                <th><?= $this->translate('Item set') ?></th>
+                <th><?= $this->translate('Hits') ?></th>
+                <?php if ($itemSetsTreeIsEnabled): ?>
+                    <th><?= $this->translate('Hits (incl. descendants item sets)') ?></th>
+                <?php endif; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($itemSetsHitsTotals as $itemSetsHitsTotal): ?>
+                <?php $itemSet = $this->api()->read('item_sets', $itemSetsHitsTotal['item_set_id'])->getContent() ?>
+                <tr>
+                    <td><?= $this->escapeHtml($itemSet->displayTitle()) ?></td>
+                    <td><?= $this->escapeHtml($itemSetsHitsTotal['hits_self']) ?></td>
+                    <?php if ($itemSetsTreeIsEnabled): ?>
+                        <td><?= $this->escapeHtml($itemSetsHitsTotal['hits_inclusive']) ?></td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php $this->trigger('view.browse.after'); ?>
+
+    <div class="browse-controls">
+        <?php echo $this->pagination(); ?>
+    </div>
+<?php else: ?>
+    <div class="no-resources">
+        <p><?= $this->translate('No data available'); ?></p>
+    </div>
+<?php endif; ?>
