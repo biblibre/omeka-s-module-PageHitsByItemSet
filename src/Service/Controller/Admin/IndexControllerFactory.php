@@ -10,8 +10,9 @@ class IndexControllerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $connection = $services->get('Omeka\Connection');
+        $moduleManager = $services->get('Omeka\ModuleManager');
 
-        $controller = new IndexController($connection);
+        $controller = new IndexController($connection, $moduleManager);
 
         return $controller;
     }

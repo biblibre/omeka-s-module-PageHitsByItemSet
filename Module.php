@@ -26,8 +26,7 @@ class Module extends AbstractModule
                 item_set_id INT NOT NULL,
                 year INT NOT NULL,
                 month INT NOT NULL,
-                hits_self INT NOT NULL,
-                hits_inclusive INT NOT NULL,
+                hits INT NOT NULL,
                 INDEX IDX_686DAA85960278D7 (item_set_id),
                 UNIQUE INDEX item_set_year_month (item_set_id, year, month),
                 PRIMARY KEY(id)

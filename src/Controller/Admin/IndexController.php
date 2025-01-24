@@ -7,14 +7,17 @@ use Doctrine\DBAL\ParameterType;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Omeka\Stdlib\Paginator;
+use Omeka\Module\Manager as ModuleManager;
 
 class IndexController extends AbstractActionController
 {
     protected Connection $connection;
+    protected ModuleManager $moduleManager;
 
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, ModuleManager $moduleManager)
     {
         $this->connection = $connection;
+        $this->moduleManager = $moduleManager;
     }
 
     public function browseAction()
@@ -27,8 +30,6 @@ class IndexController extends AbstractActionController
         $sort_order = $this->params()->fromQuery('sort_order');
         $year = $this->params()->fromQuery('year');
         $month = $this->params()->fromQuery('month');
-
-        $sql = 'SELECT item_set_id, SUM(hits_self) hits_self, SUM(hits_inclusive) hits_inclusive FROM page_hits_by_item_set_hits_aggregate';
 
         $sql_conditions = [];
         $sql_conditions_bind_values = [];
@@ -44,8 +45,42 @@ class IndexController extends AbstractActionController
             $sql_conditions_types[] = ParameterType::INTEGER;
         }
         if ($sql_conditions) {
-            $sql .= ' WHERE ' . implode(' AND ', $sql_conditions);
+            $join_condition = ' AND ' . implode(' AND ', $sql_conditions);
+        } else {
+            $join_condition = '';
         }
+
+        if ($this->isModuleActive('ItemSetsTree')) {
+            $cte = <<<SQL
+                with recursive hits (item_set_id, parent_item_set_id, hits_self, hits_inclusive) as (
+                    select item_set.id, item_sets_tree_edge.parent_item_set_id, coalesce(h.hits, 0), coalesce(h.hits, 0)
+                    from item_set
+                    left join item_sets_tree_edge on (item_sets_tree_edge.item_set_id = item_set.id)
+                    left join page_hits_by_item_set_hits_aggregate h on (item_set.id = h.item_set_id $join_condition)
+                    where not exists (select * from item_sets_tree_edge where item_sets_tree_edge.parent_item_set_id = item_set.id)
+                    union
+                    select item_set.id, item_sets_tree_edge.parent_item_set_id, coalesce(h.hits, 0), coalesce(h.hits, 0) + hits.hits_inclusive
+                    from item_set
+                    left join item_sets_tree_edge on (item_sets_tree_edge.item_set_id = item_set.id)
+                    left join page_hits_by_item_set_hits_aggregate h on (item_set.id = h.item_set_id $join_condition)
+                    join hits on (hits.parent_item_set_id = item_set.id)
+                )
+            SQL;
+            $cte_bind_values = array_merge($sql_conditions_bind_values, $sql_conditions_bind_values);
+            $cte_types = array_merge($sql_conditions_types, $sql_conditions_types);
+        } else {
+            $cte = <<<SQL
+                with hits (item_set_id, hits_self, hits_inclusive) as (
+                    select item_set.id, coalesce(h.hits, 0), coalesce(h.hits, 0)
+                    from item_set
+                    left join page_hits_by_item_set_hits_aggregate h on (item_set.id = h.item_set_id $join_condition)
+                )
+            SQL;
+            $cte_bind_values = $sql_conditions_bind_values;
+            $cte_types = $sql_conditions_types;
+        }
+
+        $sql = "$cte SELECT item_set_id, SUM(hits_self) hits_self, SUM(hits_inclusive) hits_inclusive FROM hits";
 
         $sql .= ' GROUP BY item_set_id';
         $sql .= ' ORDER BY ' . $this->connection->quoteIdentifier($sort_by) . ' ' . ($sort_order === 'asc' ? 'asc' : 'desc');
@@ -61,15 +96,12 @@ class IndexController extends AbstractActionController
 
         $itemSetsHitsTotals = $this->connection->fetchAllAssociative(
             $sql,
-            array_merge($sql_conditions_bind_values, $sql_limit_bind_values),
-            array_merge($sql_conditions_types, $sql_limit_types)
+            array_merge($cte_bind_values, $sql_limit_bind_values),
+            array_merge($cte_types, $sql_limit_types)
         );
 
-        $count_sql = 'SELECT COUNT(DISTINCT item_set_id) FROM page_hits_by_item_set_hits_aggregate';
-        if ($sql_conditions) {
-            $count_sql .= ' WHERE ' . implode(' AND ', $sql_conditions);
-        }
-        $totalResults = $this->connection->fetchOne($count_sql, $sql_conditions_bind_values, $sql_conditions_types);
+        $count_sql = "$cte SELECT COUNT(DISTINCT item_set_id) FROM hits";
+        $totalResults = $this->connection->fetchOne($count_sql, $cte_bind_values, $cte_types);
 
         $years = $this->connection->fetchAllKeyValue('SELECT year, year FROM page_hits_by_item_set_hits_aggregate GROUP BY year ORDER BY year');
 
@@ -80,5 +112,14 @@ class IndexController extends AbstractActionController
         $view->setVariable('years', $years);
 
         return $view;
+    }
+
+    protected function isModuleActive($moduleName): bool
+    {
+        if (!$this->moduleManager->isRegistered($moduleName)) {
+            return false;
+        }
+
+        return $this->moduleManager->getModule($moduleName)->getState() === \Omeka\Module\Manager::STATE_ACTIVE;
     }
 }

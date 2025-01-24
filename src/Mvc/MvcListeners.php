@@ -50,34 +50,12 @@ class MvcListeners extends AbstractListenerAggregate
                 foreach ($itemSets as $itemSet) {
                     $connection->executeStatement(
                         <<<SQL
-                        INSERT INTO page_hits_by_item_set_hits_aggregate (item_set_id, year, month, hits_self, hits_inclusive)
-                        VALUES (?, YEAR(CURDATE()), MONTH(CURDATE()), 1, 1)
-                        ON DUPLICATE KEY UPDATE
-                            hits_self = hits_self + 1,
-                            hits_inclusive = hits_inclusive + 1
+                        INSERT INTO page_hits_by_item_set_hits_aggregate (item_set_id, year, month, hits)
+                        VALUES (?, YEAR(CURDATE()), MONTH(CURDATE()), 1)
+                        ON DUPLICATE KEY UPDATE hits = hits + 1
                         SQL,
                         [$itemSet->getId()]
                     );
-                }
-
-                $itemSetsTree = $this->getItemSetsTree();
-                if ($itemSetsTree) {
-                    $itemSetAdapter = $this->getApiAdapterManager()->get('item_sets');
-                    foreach ($itemSets as $itemSet) {
-                        $itemSetRepresentation = $itemSetAdapter->getRepresentation($itemSet);
-                        $ancestors = $itemSetsTree->getAncestors($itemSetRepresentation);
-
-                        foreach ($ancestors as $ancestor) {
-                            $connection->executeStatement(
-                                <<<SQL
-                                INSERT INTO page_hits_by_item_set_hits_aggregate (item_set_id, year, month, hits_self, hits_inclusive)
-                                VALUES (?, YEAR(CURDATE()), MONTH(CURDATE()), 0, 1)
-                                ON DUPLICATE KEY UPDATE hits_inclusive = hits_inclusive + 1
-                                SQL,
-                                [$ancestor->id()]
-                            );
-                        }
-                    }
                 }
             }
         }
@@ -96,16 +74,5 @@ class MvcListeners extends AbstractListenerAggregate
     protected function getApiAdapterManager(): ApiAdapterManager
     {
         return $this->serviceLocator->get('Omeka\ApiAdapterManager');
-    }
-
-    protected function getItemSetsTree(): ?ItemSetsTree
-    {
-        try {
-            $itemSetsTree = $this->serviceLocator->get('ItemSetsTree');
-        } catch (\Throwable) {
-            $itemSetsTree = null;
-        }
-
-        return $itemSetsTree;
     }
 }

@@ -75,7 +75,7 @@
             <?php foreach ($itemSetsHitsTotals as $itemSetsHitsTotal): ?>
                 <?php $itemSet = $this->api()->read('item_sets', $itemSetsHitsTotal['item_set_id'])->getContent() ?>
                 <tr>
-                    <td><?= $this->escapeHtml($itemSet->displayTitle()) ?></td>
+                    <td><?= $itemSet->linkPretty() ?></td>
                     <td><?= $this->escapeHtml($itemSetsHitsTotal['hits_self']) ?></td>
                     <?php if ($itemSetsTreeIsEnabled): ?>
                         <td><?= $this->escapeHtml($itemSetsHitsTotal['hits_inclusive']) ?></td>

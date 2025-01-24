@@ -67,10 +67,10 @@ class HitsAggregate extends \PageHitsByItemSet\Entity\HitsAggregate implements \
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'itemSet', 'year', 'month', 'hitsSelf', 'hitsInclusive'];
+            return ['__isInitialized__', 'id', 'itemSet', 'year', 'month', 'hits'];
         }
 
-        return ['__isInitialized__', 'id', 'itemSet', 'year', 'month', 'hitsSelf', 'hitsInclusive'];
+        return ['__isInitialized__', 'id', 'itemSet', 'year', 'month', 'hits'];
     }
 
     /**

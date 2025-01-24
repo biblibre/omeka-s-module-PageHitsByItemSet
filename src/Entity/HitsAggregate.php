@@ -41,12 +41,7 @@ class HitsAggregate extends AbstractEntity
     /**
      * @Column(type="integer")
      */
-    protected $hitsSelf;
-
-    /**
-     * @Column(type="integer")
-     */
-    protected $hitsInclusive;
+    protected $hits;
 
     public function getId()
     {
