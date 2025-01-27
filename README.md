@@ -12,6 +12,13 @@ It is a reimplementation of the collection tab from
 
 * Omeka S 4.0.0 or greater
 
+## Quick start
+
+1. [Add the module to Omeka S](https://omeka.org/s/docs/user-manual/modules/#adding-modules-to-omeka-s)
+2. Browse public sites (item and media pages) to generate "hits"
+3. Go to the admin interface and click on the new navigation entry "Page hits
+   by item set"
+
 ## Features
 
 * Show the number of hits for each item set in a paginated table
@@ -37,3 +44,14 @@ differences (this comparison is based on version 3.4.9 of Statistics):
 * Statistics stores individual page hits in database which can make the
   database grow rapidly
 * Statistics provides an additional "date range" filter
+
+## Contributors / Sponsors
+
+This module was sponsored by:
+
+* Université de Paris 8
+
+## License
+
+This module is distributed under the GNU General Public License, version 3 (GPLv3).
+The full text of this license is given in the `LICENSE` file.
