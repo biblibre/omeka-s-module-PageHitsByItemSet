@@ -17,9 +17,9 @@ It is a reimplementation of the collection tab from
 * Show the number of hits for each item set in a paginated table
     * Filter by year and/or month
     * Sort by number of hits
-* If [ItemSetsTree](https://omeka.org/s/modules/ItemSetsTree/) is enabled, hits
-  are recorded for item sets ancestors too but separately (displayed in another
-  column)
+* If [ItemSetsTree](https://omeka.org/s/modules/ItemSetsTree/) is enabled, a
+  new column displays the number of hits for an item set and all its
+  descendants.
 * Keep the database table small by storing only what's needed. Individual hits
   are not stored. The module stores only one row per item set / year / month
 
