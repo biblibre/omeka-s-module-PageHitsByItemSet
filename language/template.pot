@@ -1,0 +1,92 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-27 14:04+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:3
+msgid "Page hits by item set"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:15
+#: view/page-hits-by-item-set/admin/index/browse.phtml:68
+msgid "Hits"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:19
+#: view/page-hits-by-item-set/admin/index/browse.phtml:70
+msgid "Hits (incl. descendants item sets)"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:30
+msgid "All years"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:37
+msgid "All months"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:39
+msgid "January"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:40
+msgid "February"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:41
+msgid "March"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:42
+msgid "April"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:43
+msgid "May"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:44
+msgid "June"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:45
+msgid "July"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:46
+msgid "August"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:47
+msgid "September"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:48
+msgid "October"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:49
+msgid "November"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:50
+msgid "December"
+msgstr ""
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:95
+msgid "No data available"
+msgstr ""

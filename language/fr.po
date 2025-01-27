@@ -1,0 +1,93 @@
+# French translations for PACKAGE package.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-27 14:04+0100\n"
+"PO-Revision-Date: 2025-01-27 14:08+0100\n"
+"Last-Translator: Julian Maurice <julian.maurice@biblibre.com>\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:3
+msgid "Page hits by item set"
+msgstr "Visites par collection"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:15
+#: view/page-hits-by-item-set/admin/index/browse.phtml:68
+msgid "Hits"
+msgstr "Visites"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:19
+#: view/page-hits-by-item-set/admin/index/browse.phtml:70
+msgid "Hits (incl. descendants item sets)"
+msgstr "Visites (collections descendantes incluses)"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:30
+msgid "All years"
+msgstr "Toutes les années"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:37
+msgid "All months"
+msgstr "Tous les mois"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:39
+msgid "January"
+msgstr "Janvier"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:40
+msgid "February"
+msgstr "Février"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:41
+msgid "March"
+msgstr "Mars"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:42
+msgid "April"
+msgstr "Avril"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:43
+msgid "May"
+msgstr "Mai"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:44
+msgid "June"
+msgstr "Juin"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:45
+msgid "July"
+msgstr "Juillet"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:46
+msgid "August"
+msgstr "Août"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:47
+msgid "September"
+msgstr "Septembre"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:48
+msgid "October"
+msgstr "Octobre"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:49
+msgid "November"
+msgstr "Novembre"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:50
+msgid "December"
+msgstr "Décembre"
+
+#: view/page-hits-by-item-set/admin/index/browse.phtml:95
+msgid "No data available"
+msgstr "Aucune donnée disponible"
