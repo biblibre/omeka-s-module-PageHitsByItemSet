@@ -33,9 +33,8 @@ class MvcListeners extends AbstractListenerAggregate
     public function onRender(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        $matchedRouteName = $routeMatch->getMatchedRouteName();
 
-        if ($matchedRouteName === 'site/resource-id') {
+        if ($routeMatch && $routeMatch->getMatchedRouteName() === 'site/resource-id') {
             $id = $routeMatch->getParam('id');
 
             $resource = $this->getEntityManager()->find('Omeka\Entity\Resource', $id);
